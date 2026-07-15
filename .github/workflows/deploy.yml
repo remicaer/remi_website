@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: baptiste0928/neocities-deploy@v1
-        with:
-          api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
-          directory: portfolio
+      - name: Install Neocities CLI
+        run: cargo install neocities
+      - name: Deploy to Neocities
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_TOKEN }}
+        run: neocities push portfolio
