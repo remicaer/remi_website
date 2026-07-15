@@ -9,9 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Neocities CLI
-        run: gem install neocities
-      - name: Deploy to Neocities
-        env:
-          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_TOKEN }}
-        run: neocities push portfolio
+      - uses: kognise/neocities-deploy-action@v1
+        with:
+          neocities_token: ${{ secrets.NEOCITIES_API_TOKEN }}
+          directory: portfolio
