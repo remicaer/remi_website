@@ -1,0 +1,15 @@
+name: Deploy to Neocities
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: baptiste0928/neocities-deploy@v1
+        with:
+          api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
+          directory: portfolio
