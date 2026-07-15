@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>remi caer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Inconsolata, monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        background: #fff;
+        color: #888;
+        max-width: 1200px;
+        margin: 15px auto;
+        padding: 20px;
+      }
+
+      #menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        font-size: 22px;
+        color: #999;
+        line-height: 60px;
+      }
+
+      #site-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 40px;
+      }
+
+      #nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 22px;
+      }
+
+      #nav a {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 13px;
+        line-height: 26px;
+        text-transform: lowercase;
+      }
+
+      #nav a:hover,
+      #nav a.nav-active {
+        color: #111;
+      }
+
+      .logo {
+        display: block;
+        line-height: 0;
+        height: 60px;
+        flex-shrink: 0;
+      }
+
+      .logo img {
+        display: block;
+        max-height: 60px;
+        max-width: 100%;
+      }
+
+      main a {
+        color: #888;
+      }
+      main a:hover {
+        text-decoration: none;
+      }
+
+      main h1 {
+        font-size: 1.1rem;
+        margin: 0 auto 1.5rem;
+        color: #888;
+        max-width: 680px;
+      }
+      main h2 {
+        font-size: 1rem;
+        margin: 2rem auto 0.75rem;
+        color: #888;
+        max-width: 680px;
+      }
+      main p {
+        line-height: 1.6;
+        margin: 0 auto 1rem;
+        max-width: 680px;
+      }
+      main ul {
+        padding-left: 1.2rem;
+        margin: 0 auto 1rem;
+        max-width: 680px;
+      }
+      main li {
+        line-height: 1.8;
+      }
+      main em {
+        font-style: italic;
+      }
+      main strong {
+        font-weight: bold;
+      }
+      main hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 2rem auto;
+        max-width: 680px;
+      }
+      main img {
+        max-width: 100%;
+        max-height: 85vh;
+        width: auto;
+        height: auto;
+        display: block;
+        margin: 1rem auto;
+      }
+
+      .video-embed {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        margin: 1.5rem auto;
+      }
+      .video-embed iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.7%;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 15px;
+        }
+
+        #menu-toggle {
+          display: block;
+        }
+
+        #nav {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          gap: 0;
+          margin-top: 8px;
+          border-top: 1px solid #ddd;
+        }
+
+        #nav.nav-open {
+          display: flex;
+        }
+
+        #nav a {
+          line-height: 2.5em;
+          font-size: 15px;
+          border-bottom: 1px solid #ddd;
+        }
+
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .grid-item {
+        text-decoration: none;
+        color: #111;
+        display: block;
+        cursor: pointer;
+      }
+
+      .grid-thumb {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .grid-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        margin: 0;
+        max-height: none;
+        opacity: 0.9;
+        transition: opacity 0.14s ease-out;
+      }
+
+      .grid-item:hover .grid-thumb img {
+        opacity: 0;
+      }
+
+      .grid-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.6;
+        text-transform: lowercase;
+        color: rgba(0, 0, 0, 0);
+        transition: color 0.14s ease-out;
+        pointer-events: none;
+      }
+
+      .grid-item:hover .grid-label {
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="site-header">
+      <button id="menu-toggle" aria-label="menu">☰</button>
+      <nav id="nav">
+        <a href="#installations" data-tab="installations">installations</a>
+        <a href="#video-art" data-tab="video art">video-art</a>
+        <a href="#about" data-tab="about">about</a>
+        <a href="https://instagram.com/remi.caer" target="_blank">instagram</a>
+        <a href="mailto:remi.caer@icloud.com">email</a>
+      </nav>
+      <a href="#installations" class="logo">
+        <img src="images/monogram.png" alt="remi caer" />
+      </a>
+    </header>
+    <main id="content">loading...</main>
+
+    <script>
+      const PAGES = {
+        installations: [
+          { hash: "installations/scopaethesia", title: "Scopaethesia", image: "images/img_2959.jpg" },
+          { hash: "installations/who-is-doing-what-to-whome", title: "Who is doing what to whome", image: "images/img_0902.jpeg" },
+          { hash: "installations/supernature", title: "Supernature", image: "images/adt_supernature_dres_run_mar10_2021_her_maj_1696_hires.jpg" },
+          { hash: "installations/flickering-white-glow", title: "Flickering White Glow", image: "images/img_4982.jpg" },
+          { hash: "installations/cold", title: "COLD", image: "images/jordan1.jpg" },
+          { hash: "installations/yellow", title: "Yellow", image: "images/img_0534.jpg" },
+        ],
+        "video art": [
+          { hash: "video-art/graphite-video-engine", title: "Graphite Video Engine", image: "images/screenshot_2023-04-06_at_8.56.00_am.png" },
+          { hash: "video-art/phosphene", title: "Phosphene", image: "images/img_0001.jpeg" },
+          { hash: "video-art/bokuseki", title: "Bokuseki Remix", image: "images/screen_shot_2020-03-12_at_7.17.39_pm.png" },
+          { hash: "video-art/pullmyfinger", title: "Pull My Finger Promo", image: "images/screen_shot_2020-03-12_at_7.16.13_pm.png" },
+          { hash: "video-art/hybridbreak", title: "Hybrid Break", image: "images/screen_shot_2020-03-12_at_7.20.05_pm.png" },
+          { hash: "video-art/videoresearch", title: "Video Research", image: "images/screen_shot_2020-03-29_at_12.25.30_pm.png" },
+          { hash: "video-art/brownrice", title: "Brown Rice", image: "images/screen_shot_2020-03-12_at_7.42.55_pm.png" },
+        ],
+      };
+
+      function parseRoute(hash) {
+        const path = hash ? hash.replace(/^#/, "") : "";
+
+        if (!path || path === "index" || path === "installations") {
+          return { type: "grid", section: "installations" };
+        }
+        if (path === "video-art") {
+          return { type: "grid", section: "video art" };
+        }
+        if (path.startsWith("installations/")) {
+          return { type: "page", path, tab: "installations" };
+        }
+        if (path.startsWith("video-art/")) {
+          return { type: "page", path, tab: "video art" };
+        }
+        return { type: "page", path, tab: "about" };
+      }
+
+      function setNavActive(tab) {
+        document.querySelectorAll("#nav a[data-tab]").forEach((link) => {
+          link.classList.toggle("nav-active", link.dataset.tab === tab);
+        });
+      }
+
+      // mobile menu
+      document.getElementById("menu-toggle").addEventListener("click", () => {
+        document.getElementById("nav").classList.toggle("nav-open");
+      });
+      document.getElementById("nav").addEventListener("click", () => {
+        document.getElementById("nav").classList.remove("nav-open");
+      });
+
+      function renderGrid(section) {
+        const items = PAGES[section];
+        let html = '<div class="grid">';
+        for (const { hash, title, image } of items) {
+          const thumb = image ? `<img src="${image}" alt="">` : "";
+          html += `<a class="grid-item" href="#${hash}">
+            <div class="grid-thumb">${thumb}<span class="grid-label">${title}</span></div>
+          </a>`;
+        }
+        html += "</div>";
+        return html;
+      }
+
+      function embedVideoLinks(container) {
+        container.querySelectorAll("a").forEach(a => {
+          const href = a.href;
+          let embedUrl = null;
+
+          const vimeoMatch = href.match(/vimeo\.com\/(\d+)/);
+          if (vimeoMatch) embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+
+          const ytMatch = href.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+          if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`;
+
+          if (embedUrl) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "video-embed";
+            wrapper.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            a.replaceWith(wrapper);
+          }
+        });
+      }
+
+      function isWorkPage(path) {
+        return path.startsWith("installations/") || path.startsWith("video-art/");
+      }
+
+      async function loadPage(hash) {
+        const route = parseRoute(hash);
+
+        if (route.type === "grid") {
+          document.getElementById("content").innerHTML = renderGrid(route.section);
+          document.title = "remi caer";
+          setNavActive(route.section);
+          return;
+        }
+
+        try {
+          const res = await fetch(route.path + ".md");
+          if (!res.ok) throw new Error("not found");
+          const text = await res.text();
+          const rewritten = text.replace(/\]\(([^)]+)\.md\)/g, (_, p) => {
+            const clean = p.replace(/^(\.\.\/)+/, "").replace(/^\.\//, "");
+            return `](#${clean})`;
+          });
+
+          let md = rewritten;
+          let pageTitle = null;
+          if (isWorkPage(route.path)) {
+            const match = md.match(/^#\s+(.+?)\s*\n/);
+            if (match) {
+              pageTitle = match[1];
+              md = md.replace(/^#\s+.+?\s*\n/, "");
+            }
+          }
+
+          document.getElementById("content").innerHTML = marked.parse(md);
+          embedVideoLinks(document.getElementById("content"));
+
+          if (!pageTitle) {
+            const h1 = document.querySelector("#content h1");
+            pageTitle = h1 ? h1.textContent : null;
+          }
+          document.title = pageTitle ? pageTitle + " — remi caer" : "remi caer";
+          setNavActive(route.tab);
+        } catch {
+          document.getElementById("content").innerHTML = "<p>page not found.</p>";
+          setNavActive(null);
+        }
+      }
+
+      window.addEventListener("hashchange", () => {
+        loadPage(location.hash);
+        window.scrollTo(0, 0);
+      });
+
+      loadPage(location.hash);
+    </script>
+  </body>
+</html>
