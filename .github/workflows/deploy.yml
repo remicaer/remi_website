@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Neocities CLI
-        run: cargo install neocities
+        run: gem install neocities
       - name: Deploy to Neocities
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_TOKEN }}
