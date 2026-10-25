@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
     <style>
       * {
         box-sizing: border-box;
@@ -149,6 +149,54 @@
         height: 100%;
       }
 
+      .image-row,
+      .image-grid,
+      .image-masonry {
+        max-width: none;
+        margin: 2rem 0;
+      }
+
+      .image-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(var(--cols), 1fr);
+        gap: 1rem;
+      }
+
+      .image-masonry {
+        columns: var(--cols);
+        column-gap: 1rem;
+      }
+
+      .image-row img,
+      .image-grid img,
+      .image-masonry img {
+        margin: 0;
+        max-height: none;
+      }
+
+      .image-row img {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      .image-grid img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+
+      .image-masonry img {
+        width: 100%;
+        margin-bottom: 1rem;
+        break-inside: avoid;
+      }
+
       .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -183,8 +231,13 @@
           border-bottom: 1px solid #ddd;
         }
 
-        .grid {
+        .grid,
+        .image-grid {
           grid-template-columns: repeat(2, 1fr);
+        }
+
+        .image-masonry {
+          columns: 2;
         }
       }
 
@@ -258,6 +311,7 @@
     <script>
       const PAGES = {
         installations: [
+          { hash: "installations/interstitial-dreaming", title: "Interstitial Dreaming", image: "images/img_8736.jpg" },
           { hash: "installations/scopaethesia", title: "Scopaesthesia", image: "images/img_2959.jpg" },
           { hash: "installations/who-is-doing-what-to-whome", title: "Who is doing what to whom", image: "images/img_0902.jpeg" },
           { hash: "installations/supernature", title: "Supernature", image: "images/adt_supernature_dres_run_mar10_2021_her_maj_1696_hires.jpg" },
@@ -341,6 +395,37 @@
         });
       }
 
+      // "::: grid 3" … ":::" wraps the images between in a layout div; the
+      // blank lines let marked keep parsing the markdown inside it
+      function expandLayouts(md) {
+        return md.replace(
+          /^:::[ \t]*(row|grid|masonry)[ \t]*(\d*)[ \t]*\r?\n([\s\S]*?)\r?\n:::[ \t]*$/gm,
+          (_, kind, cols, inner) =>
+            `<div class="image-${kind}" style="--cols: ${cols || 3}">\n\n${inner}\n\n</div>`,
+        );
+      }
+
+      function arrangeImages(container) {
+        container.querySelectorAll(".image-row, .image-grid, .image-masonry").forEach((layout) => {
+          layout.replaceChildren(...layout.querySelectorAll("img"));
+        });
+
+        // images on consecutive lines (one paragraph) sit side by side
+        container.querySelectorAll("p").forEach((p) => {
+          if (p.querySelectorAll("img").length > 1 && !p.textContent.trim()) {
+            p.className = "image-row";
+          }
+        });
+
+        // grow each image in a row by its aspect ratio so they share one height
+        container.querySelectorAll(".image-row img").forEach((img) => {
+          const fit = () => {
+            if (img.naturalWidth) img.style.flexGrow = img.naturalWidth / img.naturalHeight;
+          };
+          img.complete ? fit() : img.addEventListener("load", fit);
+        });
+      }
+
       function isWorkPage(path) {
         return path.startsWith("installations/") || path.startsWith("video-art/");
       }
@@ -356,7 +441,7 @@
         }
 
         try {
-          const res = await fetch(route.path + ".md");
+          const res = await fetch(route.path + ".md", { cache: "no-cache" });
           if (!res.ok) throw new Error("not found");
           const text = await res.text();
           const rewritten = text.replace(/\]\(([^)]+)\.md\)/g, (_, p) => {
@@ -374,8 +459,9 @@
             }
           }
 
-          document.getElementById("content").innerHTML = marked.parse(md);
+          document.getElementById("content").innerHTML = marked.parse(expandLayouts(md));
           embedVideoLinks(document.getElementById("content"));
+          arrangeImages(document.getElementById("content"));
 
           if (!pageTitle) {
             const h1 = document.querySelector("#content h1");

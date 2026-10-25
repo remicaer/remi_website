@@ -2,8 +2,9 @@
 
 ## Installations
 
-- [Scopaethesia](installations/scopaethesia.md)
-- [Who is doing what to whome](installations/who-is-doing-what-to-whome.md)
+- [Interstitial Dreaming](installations/interstitial-dreaming.md)
+- [Scopaesthesia](installations/scopaethesia.md)
+- [Who is doing what to whom](installations/who-is-doing-what-to-whome.md)
 - [Supernature](installations/supernature.md)
 - [Flickering White Glow](installations/flickering-white-glow.md)
 - [COLD](installations/cold.md)

@@ -13,7 +13,7 @@ Bachelor of Industrial Design with Honours, RMIT University, 2016–2021
 - Digital Teaching Assistant — RMIT University, 2020
 - Research Assistant and Set Designer — RMIT University & Australian Dance Theatre, 2020–2021
 - Studio Technician/Manager — RMIT University, 2019–2021
-- University Lecturer — RMIT University, 2022–Present
+- University Lecturer — RMIT University, 2022–2024
 
 ## Art
 

@@ -11,11 +11,9 @@ This cross-disciplinary work inhabits and contemplates our public space through 
 [Watch on Vimeo](https://vimeo.com/814110252)
 
 ![](images/img_2860.jpg)
-
 ![](images/img_2959.jpg)
 
 ![](images/img_2866.jpg)
-
 ![](images/img_3034.jpg)
 
 ---

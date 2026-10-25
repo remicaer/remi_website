@@ -13,36 +13,30 @@ The project embeds experimental concept into a grounded piece of production/ligh
 ![](images/img_4982.jpg)
 
 ![](images/img_4947.jpg)
-
 ![](images/img_4931.jpg)
 
 ![](images/img_5129.jpg)
-
 ![](images/img_5163.jpg)
-
 ![](images/img_5176.jpg)
 
+::: grid 4
 ![](images/img_5060.jpg)
-
 ![](images/img_5048.jpg)
-
 ![](images/img_5063.jpg)
-
 ![](images/img_5065.jpg)
+:::
 
 ![](images/img_5240.jpg)
-
 ![](images/img_5044.jpg)
 
 ![](images/shell.png)
 
+::: masonry 2
 ![](images/image_1.jpg)
-
 ![](images/image_12.jpg)
-
 ![](images/image_41.jpg)
-
 ![](images/image_48.jpg)
+:::
 
 ---
 
