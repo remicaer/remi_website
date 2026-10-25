@@ -149,6 +149,21 @@
         height: 100%;
       }
 
+      .hero {
+        margin-bottom: 2.5rem;
+      }
+
+      .hero img {
+        width: 100%;
+        max-height: 85vh;
+        object-fit: cover;
+        margin: 0;
+      }
+
+      .hero .video-embed {
+        margin: 0;
+      }
+
       .image-row,
       .image-grid,
       .image-masonry {
@@ -375,24 +390,52 @@
         return html;
       }
 
+      function videoEmbedUrl(href) {
+        const vimeoMatch = href.match(/vimeo\.com\/(\d+)/);
+        if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+
+        const ytMatch = href.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+        if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
+
+        return null;
+      }
+
+      function videoIframe(embedUrl) {
+        return `<iframe src="${embedUrl}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+      }
+
       function embedVideoLinks(container) {
         container.querySelectorAll("a").forEach(a => {
-          const href = a.href;
-          let embedUrl = null;
-
-          const vimeoMatch = href.match(/vimeo\.com\/(\d+)/);
-          if (vimeoMatch) embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}`;
-
-          const ytMatch = href.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-          if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`;
-
+          const embedUrl = videoEmbedUrl(a.href);
           if (embedUrl) {
             const wrapper = document.createElement("div");
             wrapper.className = "video-embed";
-            wrapper.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            wrapper.innerHTML = videoIframe(embedUrl);
             a.replaceWith(wrapper);
           }
         });
+      }
+
+      // "---" front matter at the top of a page, which Obsidian shows as properties
+      function splitFrontMatter(md) {
+        const match = md.match(/^---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/);
+        if (!match) return { meta: {}, body: md };
+
+        const meta = {};
+        for (const line of match[1].split(/\r?\n/)) {
+          const field = line.match(/^(\w+):\s*(.*?)\s*$/);
+          if (field) meta[field[1]] = field[2].replace(/^(["'])(.*)\1$/, "$2");
+        }
+        return { meta, body: md.slice(match[0].length).trimStart() };
+      }
+
+      // "hero:" is an image path or a Vimeo/YouTube link shown full width above the text
+      function renderHero(src) {
+        const embedUrl = videoEmbedUrl(src);
+        const media = embedUrl
+          ? `<div class="video-embed">${videoIframe(embedUrl)}</div>`
+          : `<img src="${src}" alt="">`;
+        return `<div class="hero">${media}</div>`;
       }
 
       // "::: grid 3" … ":::" wraps the images between in a layout div; the
@@ -449,7 +492,8 @@
             return `](#${clean})`;
           });
 
-          let md = rewritten;
+          const { meta, body } = splitFrontMatter(rewritten);
+          let md = body;
           let pageTitle = null;
           if (isWorkPage(route.path)) {
             const match = md.match(/^#\s+(.+?)\s*\n/);
@@ -459,7 +503,8 @@
             }
           }
 
-          document.getElementById("content").innerHTML = marked.parse(expandLayouts(md));
+          const hero = meta.hero ? renderHero(meta.hero) : "";
+          document.getElementById("content").innerHTML = hero + marked.parse(expandLayouts(md));
           embedVideoLinks(document.getElementById("content"));
           arrangeImages(document.getElementById("content"));
 

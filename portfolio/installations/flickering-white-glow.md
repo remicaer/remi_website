@@ -1,3 +1,7 @@
+---
+hero: images/img_4982.jpg
+---
+
 # Flickering White Glow
 
 Installation
@@ -9,8 +13,6 @@ This research is embodied into a physical installation: a portable lighting expe
 The project embeds experimental concept into a grounded piece of production/lighting design. A set of 5 LED screens with live video mapping and processing software. Designed to be robust, durable, and easy to install in any location. All 5 screens were produced using the same parametric design — scalable to any size and shape using streamlined digital fabrication methods.
 
 [Watch on Vimeo](https://vimeo.com/642326718)
-
-![](images/img_4982.jpg)
 
 ![](images/img_4947.jpg)
 ![](images/img_4931.jpg)

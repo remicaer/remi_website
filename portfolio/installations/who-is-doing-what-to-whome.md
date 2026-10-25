@@ -1,3 +1,7 @@
+---
+hero: https://www.youtube.com/watch?v=nkGwWj2RkRA
+---
+
 # Who is doing what to whom
 
 2022 · Installation
@@ -7,8 +11,6 @@
 The installation was constructed out of steel tube and CNC cut aluminium composite and designed as a travelling work — one that could easily be packed down, transported and assembled quickly at any location.
 
 [Watch on Vimeo](https://vimeo.com/813906312)
-
-[Watch on YouTube](https://www.youtube.com/watch?v=nkGwWj2RkRA)
 
 ![](images/widwtw_thembisoddell_2022_external-1-1024x614.jpg)
 

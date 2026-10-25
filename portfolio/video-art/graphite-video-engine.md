@@ -1,3 +1,7 @@
+---
+hero: images/screenshot_2023-04-06_at_8.56.00_am.png
+---
+
 # Graphite Video Engine
 
 Software / Video Art
