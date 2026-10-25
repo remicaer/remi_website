@@ -1,4 +1,4 @@
-# Who is doing what to whome
+# Who is doing what to whom
 
 2022 · Installation
 
